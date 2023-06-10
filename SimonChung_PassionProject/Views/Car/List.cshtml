@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SimonChung_PassionProject.Models.CarDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+@foreach(var car in Model)
+{
+    <h2>Car Id: <a href="/car/details/@car.CarID">@car.CarID</a></h2>
+    <div>Price: $@car.Price</div>
+    <div>Year: @car.Year</div>
+    <div>Mileage: @car.Mileage km</div>
+    <div>Model: @car.CarModelName</div>
+    <div>Make: @car.CarMakeName</div>
+    <div>Dealer: @car.DealerName</div>
+}

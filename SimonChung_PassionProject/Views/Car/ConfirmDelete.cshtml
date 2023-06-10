@@ -1,0 +1,19 @@
+﻿@model SimonChung_PassionProject.Models.CarDto
+
+@{
+    ViewBag.Title = "ConfirmDelete";
+}
+
+<h2>Do you really want to delete this car?</h2>
+
+<a href="/Car/List">Cancel</a>
+
+<h2>@Model.CarID</h2>
+<div>Year: @Model.Year</div>
+<div>Price: $@Model.Price</div>
+<div>Mileage: @Model.Mileage km</div>
+
+<form action="/Car/Delete/@Model.CarID" method="POST">
+    <input type="submit" value="Confirm Delete" />
+</form>
+
