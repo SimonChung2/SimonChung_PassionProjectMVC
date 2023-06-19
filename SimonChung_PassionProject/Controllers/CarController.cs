@@ -106,9 +106,11 @@ namespace SimonChung_PassionProject.Controllers
         // GET: Car/Edit/5
         public ActionResult Edit(int id)
         {
-            string url = "cardata/findcar/" + id;
+            string url = "findcar/" + id;
+           
             HttpResponseMessage response = client.GetAsync(url).Result;
             CarDto selectedcar = response.Content.ReadAsAsync<CarDto>().Result;
+
             return View(selectedcar);
         }
 
@@ -131,7 +133,7 @@ namespace SimonChung_PassionProject.Controllers
         // GET: Car/ConfirmDelete/5
         public ActionResult ConfirmDelete(int id)
         {
-            string url = "cardata/findcar/" + id;
+            string url = "findcar/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             CarDto selectedcar = response.Content.ReadAsAsync<CarDto>().Result;
             return View(selectedcar);
@@ -141,7 +143,7 @@ namespace SimonChung_PassionProject.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            string url = "cardata/deletecar/" + id;
+            string url = "deletecar/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;
