@@ -15,8 +15,16 @@ namespace SimonChung_PassionProject.Controllers
     public class CarModelDataController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        /// <summary>
+        /// Returns all car models in the system
+        /// </summary>
+        /// <returns>
+        /// CONTENT: all car models in the database
+        /// </returns>
+        /// <example>
+        /// GET: api/CarModelData/ListCarModels
+        /// </example>
 
-        // GET: api/CarModelData/ListCarModels
         [HttpGet]
         public IEnumerable<CarModel> ListCarModels()
         {
@@ -24,7 +32,17 @@ namespace SimonChung_PassionProject.Controllers
             return carModels;
         }
 
-        // GET: api/CarModelData/FindCarModel/3
+        /// <summary>
+        /// Returns a car model in the system
+        /// </summary>
+        /// <param name="id">ModelID</param>
+        /// <returns>
+        /// CONTENT: A car model in the system matching with the ModelID primary key
+        /// </returns>
+        /// <example>
+        /// GET: api/CarModelData/FindCarModel/3
+        /// </example>
+
         [ResponseType(typeof(CarModel))]
         [HttpGet]
         public IHttpActionResult FindCarModel(int id)
@@ -38,7 +56,19 @@ namespace SimonChung_PassionProject.Controllers
             return Ok(carModel);
         }
 
-        // POST: api/CarModelData/UpdateCarModel/3
+        /// <summary>
+        /// Updates a particular car model in the system with POST Data input
+        /// </summary>
+        /// <param name="id">ModelID</param>
+        /// <param name="carModel">JSON form data of a car model</param>
+        /// <returns>
+        /// Status codes: 204 (Success), 400 (Bad Request), 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/CarModelData/UpdateCarModel/3
+        /// FORM DATA; Car Model JSON Object
+        /// </example>
+        
         [ResponseType(typeof(void))]
         [HttpPost]
         [Authorize]
@@ -75,7 +105,21 @@ namespace SimonChung_PassionProject.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/CarModelData/AddCarModel
+        /// <summary>
+        /// Adds a car model to the system
+        /// </summary>
+        /// <param name="carModel">JSON form data of a car</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: ModelID, Car Model Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/CarModelData/AddCarModel
+        /// FORM DATA: Car Model Json Object
+        /// </example>
+
         [ResponseType(typeof(CarModel))]
         [HttpPost]
         [Authorize]
@@ -93,7 +137,19 @@ namespace SimonChung_PassionProject.Controllers
             return CreatedAtRoute("DefaultApi", new { id = carModel.ModelID }, carModel);
         }
 
-        // POST: api/CarModelData/DeleteCarModel/3
+        /// <summary>
+        ///  Deletes a car model from the system according to it's ID
+        /// </summary>
+        /// <param name="id">ModelID</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 400 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/CarModelData/DeleteCarModel/3
+        /// </example>
+
         [ResponseType(typeof(CarModel))]
         [HttpPost]
         [Authorize]

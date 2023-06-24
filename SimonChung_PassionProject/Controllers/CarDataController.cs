@@ -17,7 +17,16 @@ namespace SimonChung_PassionProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/CarData/ListCars
+
+        /// <summary>
+        /// Returns all cars in the system
+        /// </summary>
+        /// <returns>
+        /// CONTENT: all cars in the database, including their associated car models and dealers
+        /// </returns>
+        /// <example>
+        /// GET: api/CarData/ListCars
+        /// </example>
         [HttpGet]
         public IEnumerable<CarDto> ListCars()
         {
@@ -40,7 +49,17 @@ namespace SimonChung_PassionProject.Controllers
             return carDtos;
         }
 
-        // GET: api/CarData/ListCarsForCarModel
+        /// <summary>
+        /// Gathers information about cars of a particular car model
+        /// </summary>
+        /// <returns>
+        /// CONTENT: cars in the database that match with a particular car model ID
+        /// </returns>
+        /// <param name="id"> ModelID</param>
+        /// <example>
+        /// GET: api/CarData/ListCarsForCarModel
+        /// </example>
+
         [HttpGet]
         public IEnumerable<CarDto> ListCarsForCarModel(int id)
         {
@@ -63,7 +82,18 @@ namespace SimonChung_PassionProject.Controllers
             return carDtos;
         }
 
-        // GET: api/CarData/ListCarsForDealer
+        /// <summary>
+        /// Gathers information about cars available at a particular dealer
+        /// </summary>
+        /// <returns>
+        /// CONTENT: cars in the database that match with a particular dealer ID
+        /// </returns>
+        /// <param name="id"> DealerID</param>
+        /// <example>
+        /// GET: api/CarData/ListCarsForDealer
+        /// </example>
+
+
         [HttpGet]
         public IEnumerable<CarDto> ListCarsForDealer(int id)
         {
@@ -86,8 +116,17 @@ namespace SimonChung_PassionProject.Controllers
             return carDtos;
         }
 
+        /// <summary>
+        /// Returns a car in the system
+        /// </summary>
+        /// <param name="id">CarID</param>
+        /// <returns>
+        /// CONTENT: A car in the system matching with the CarID primary key
+        /// </returns>
+        /// <example>
+        /// GET: api/CarData/FindCar/3
+        /// </example>
 
-        // GET: api/CarData/FindCar/3
         [ResponseType(typeof(Car))]
         [HttpGet]
         public IHttpActionResult FindCar(int id)
@@ -113,7 +152,20 @@ namespace SimonChung_PassionProject.Controllers
             return Ok(carDto);
         }
 
-        // POST: api/CarData/UpdateCar/3
+
+        /// <summary>
+        /// Updates a particular car in the system with POST Data input
+        /// </summary>
+        /// <param name="id">CarID</param>
+        /// <param name="car">JSON form data of a car</param>
+        /// <returns>
+        /// Status codes: 204 (Success), 400 (Bad Request), 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/CarData/UpdateCar/3
+        /// FORM DATA; Car JSON Object
+        /// </example>
+
         [ResponseType(typeof(void))]
         [HttpPost]
         [Authorize]
@@ -154,7 +206,21 @@ namespace SimonChung_PassionProject.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/CarData/AddCar
+        /// <summary>
+        /// Adds a car to the system
+        /// </summary>
+        /// <param name="car">JSON form data of a car</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: CarID, Car Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/CarData/AddCar
+        /// FORM DATA: Car Json Object
+        /// </example>
+
         [ResponseType(typeof(Car))]
         [HttpPost]
         [Authorize]
@@ -172,7 +238,20 @@ namespace SimonChung_PassionProject.Controllers
             return CreatedAtRoute("DefaultApi", new { id = car.CarID }, car);
         }
 
-        // POST: api/CarData/DeleteCar/3
+        /// <summary>
+        ///  Deletes a car from the system according to it's ID
+        /// </summary>
+        /// <param name="id">CarID</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 400 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/CarData/DeleteCar/3
+        /// </example>
+
+
         [ResponseType(typeof(Car))]
         [HttpPost]
         [Authorize]

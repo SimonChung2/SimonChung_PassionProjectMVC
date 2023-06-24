@@ -16,7 +16,16 @@ namespace SimonChung_PassionProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/DealerData/ListDealers
+        /// <summary>
+        /// Returns all dealers in the system
+        /// </summary>
+        /// <returns>
+        /// CONTENT: all dealers in the database
+        /// </returns>
+        /// <example>
+        /// GET: api/DealerData/ListDealers
+        /// </example>
+
         [HttpGet]
         public IEnumerable<Dealer> ListDealers()
         {
@@ -24,7 +33,17 @@ namespace SimonChung_PassionProject.Controllers
             return dealers;
         }
 
-        // GET: api/DealerData/FindDealer/3
+        /// <summary>
+        /// Returns a dealer in the system
+        /// </summary>
+        /// <param name="id">DealerID</param>
+        /// <returns>
+        /// CONTENT: A dealer in the system matching with the DealerID primary key
+        /// </returns>
+        /// <example>
+        /// GET: api/DealerData/FindDealer/3
+        /// </example>
+
         [ResponseType(typeof(Dealer))]
         [HttpGet]
         public IHttpActionResult FindDealer(int id)
@@ -38,7 +57,19 @@ namespace SimonChung_PassionProject.Controllers
             return Ok(dealer);
         }
 
-        // POST: api/DealerData/UpdateDealer/3
+        /// <summary>
+        /// Updates a particular dealer in the system with POST Data input
+        /// </summary>
+        /// <param name="id">DealerID</param>
+        /// <param name="dealer">JSON form data of a dealer</param>
+        /// <returns>
+        /// Status codes: 204 (Success), 400 (Bad Request), 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/DealerData/UpdateDealer/3
+        /// FORM DATA; Dealer JSON Object
+        /// </example>
+
         [ResponseType(typeof(void))]
         [HttpPost]
         [Authorize]
@@ -75,7 +106,21 @@ namespace SimonChung_PassionProject.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/DealerData/AddDealer
+        /// <summary>
+        /// Adds a dealer to the system
+        /// </summary>
+        /// <param name="dealer">JSON form data of a car</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: DealerID, Dealer Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/DealerData/AddDealer
+        /// FORM DATA: Dealer Json Object
+        /// </example>
+
         [ResponseType(typeof(Dealer))]
         [HttpPost]
         [Authorize]
@@ -92,7 +137,19 @@ namespace SimonChung_PassionProject.Controllers
             return CreatedAtRoute("DefaultApi", new { id = dealer.DealerID }, dealer);
         }
 
-        // POST: api/DealerData/DeleteDealer/3
+        /// <summary>
+        ///  Deletes a dealer from the system according to it's ID
+        /// </summary>
+        /// <param name="id">DealerID</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 400 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/DealerData/DeleteDealer/3
+        /// </example>
+
         [ResponseType(typeof(Dealer))]
         [HttpPost]
         [Authorize]
