@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -39,6 +40,53 @@ namespace SimonChung_PassionProject.Controllers
             return carDtos;
         }
 
+        // GET: api/CarData/ListCarsForCarModel
+        [HttpGet]
+        public IEnumerable<CarDto> ListCarsForCarModel(int id)
+        {
+            List<Car> Cars = db.Cars.Where(a=>a.ModelID==id).ToList();
+            List<CarDto> carDtos = new List<CarDto>();
+
+            Cars.ForEach(a => carDtos.Add(new CarDto()
+            {
+                CarID = a.CarID,
+                Year = a.Year,
+                Price = a.Price,
+                Mileage = a.Mileage,
+
+                CarModelName = a.CarModels.ModelName,
+                CarMakeName = a.CarModels.Make,
+
+                DealerName = a.Dealers.DealerName
+
+            }));
+            return carDtos;
+        }
+
+        // GET: api/CarData/ListCarsForDealer
+        [HttpGet]
+        public IEnumerable<CarDto> ListCarsForDealer(int id)
+        {
+            List<Car> Cars = db.Cars.Where(a => a.DealerID == id).ToList();
+            List<CarDto> carDtos = new List<CarDto>();
+
+            Cars.ForEach(a => carDtos.Add(new CarDto()
+            {
+                CarID = a.CarID,
+                Year = a.Year,
+                Price = a.Price,
+                Mileage = a.Mileage,
+
+                CarModelName = a.CarModels.ModelName,
+                CarMakeName = a.CarModels.Make,
+
+                DealerName = a.Dealers.DealerName
+
+            }));
+            return carDtos;
+        }
+
+
         // GET: api/CarData/FindCar/3
         [ResponseType(typeof(Car))]
         [HttpGet]
@@ -68,15 +116,18 @@ namespace SimonChung_PassionProject.Controllers
         // POST: api/CarData/UpdateCar/3
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateCar(int id, Car car)
         {
             if (!ModelState.IsValid)
             {
+                Debug.WriteLine("ModelState Invalid");
                 return BadRequest(ModelState);
             }
 
             if (id != car.CarID)
             {
+                Debug.WriteLine("id variable != car.CarID" + id);
                 return BadRequest();
             }
 
@@ -90,10 +141,12 @@ namespace SimonChung_PassionProject.Controllers
             {
                 if (!CarExists(id))
                 {
+                    Debug.WriteLine("Car with that ID not found");
                     return NotFound();
                 }
                 else
                 {
+                    Debug.WriteLine("Car found:" + id);
                     throw;
                 }
             }
@@ -104,6 +157,7 @@ namespace SimonChung_PassionProject.Controllers
         // POST: api/CarData/AddCar
         [ResponseType(typeof(Car))]
         [HttpPost]
+        [Authorize]
 
         public IHttpActionResult AddCar(Car car)
         {
@@ -121,6 +175,7 @@ namespace SimonChung_PassionProject.Controllers
         // POST: api/CarData/DeleteCar/3
         [ResponseType(typeof(Car))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteCar(int id)
         {
             Car car = db.Cars.Find(id);

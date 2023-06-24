@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
-using System.Net.Http;
-using System.Diagnostics;
-using SimonChung_PassionProject.Models;
 using System.Web.Script.Serialization;
+using SimonChung_PassionProject.Models;
 using SimonChung_PassionProject.Models.ViewModels;
+
 
 namespace SimonChung_PassionProject.Controllers
 {
-    public class CarController : Controller
+    public class CarModelController : Controller
     {
         private static readonly HttpClient client;
         private JavaScriptSerializer jss = new JavaScriptSerializer();
 
-        static CarController()
+        static CarModelController()
         {
             HttpClientHandler handler = new HttpClientHandler()
             {
@@ -56,46 +57,45 @@ namespace SimonChung_PassionProject.Controllers
             return;
         }
 
-        // GET: Car/List
+        // GET: CarModel/List
         public ActionResult List()
         {
-            //objective: communicate with out car data api to retrieve a list of cars
-            //curl https://localhost:44366/api/cardata/listcars
+            //objective: to communicate with carmodeldata api method to retrieve list of car models
+            //curl https://localhost:44366/api/carmodeldata/listcarmodels
 
-          
-            string url = "cardata/listcars";
+            
+            string url = "carmodeldata/listcarmodels";
             HttpResponseMessage response = client.GetAsync(url).Result;
-
-            //Debug.WriteLine("The response code is ");
-           // Debug.WriteLine(response.StatusCode);
-
-            IEnumerable<CarDto> cars = response.Content.ReadAsAsync<IEnumerable<CarDto>>().Result;
-
-          //  Debug.WriteLine("Number of cars received:");
-           // Debug.WriteLine(cars.Count());
-
-            return View(cars);
+            IEnumerable<CarModel> carModels = response.Content.ReadAsAsync<IEnumerable<CarModel>>().Result;
+            Debug.WriteLine("Number of car models:");
+            Debug.WriteLine(carModels.Count());
+            return View(carModels);
         }
 
-        // GET: Car/Details/5
+        // GET: CarModel/Details/5
         public ActionResult Details(int id)
         {
             //objective: communicate with out car data api to retrieve one car
-            //curl https://localhost:44366/api/cardata/findcar/{id}
+            //curl https://localhost:44366/api/carmodeldata/findcarmodel/{id}
 
-            
-            string url = "cardata/findcar/" + id;
+            DetailsCarModel ViewModel = new DetailsCarModel();
+
+            string url = "carmodeldata/findcarmodel/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
+            CarModel SelectedCarModel = response.Content.ReadAsAsync<CarModel>().Result;
 
-            //Debug.WriteLine("The response code is ");
-            //Debug.WriteLine(response.StatusCode);
 
-            CarDto selectedcar = response.Content.ReadAsAsync<CarDto>().Result;
 
-            //Debug.WriteLine("car received:");
-            //Debug.WriteLine(selectedcar.CarID);
-            
-            return View(selectedcar);
+            ViewModel.SelectedCarModel = SelectedCarModel;
+            //showcase information about cars related to this car model
+            //send a request to gather info about cars related to a particular car model id
+            url = "cardata/listcarsforcarmodel/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<CarDto> RelatedCars = response.Content.ReadAsAsync<IEnumerable<CarDto>>().Result; 
+
+            ViewModel.RelatedCars = RelatedCars;
+
+            return View(ViewModel);
         }
 
         public ActionResult Error()
@@ -108,41 +108,27 @@ namespace SimonChung_PassionProject.Controllers
         public ActionResult New()
         {
             GetApplicationCookie();//get token credentials
-            CreateCar ViewModel= new CreateCar();
-            //information about all the car models in the system
-            //GET api/carmodeldata/listcarmodels
-            string url = "carmodeldata/listcarmodels";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            IEnumerable<CarModel> CarModelOptions = response.Content.ReadAsAsync<IEnumerable<CarModel>>().Result;
-            ViewModel.CarModelOptions = CarModelOptions;
-
-            //GET api/dealerdata/listdealers
-            url = "dealerdata/listdealers";
-            response = client.GetAsync(url).Result;
-            IEnumerable<Dealer> DealerOptions = response.Content.ReadAsAsync<IEnumerable<Dealer>>().Result;
-            ViewModel.DealerOptions = DealerOptions;
-
-            return View(ViewModel);
+            return View();
         }
 
-        // POST: Car/Create
+        // GET: CarModel/Create
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Car car)
+        public ActionResult Create(CarModel carmodel)
         {
             GetApplicationCookie();//get token credentials
             Debug.WriteLine("The JSON payload is: ");
             //Debug.WriteLine(car.Year);
             //objective: add a new car into our system using the API
-            //curl -H "Content-Type:application/json" -d @car.json https://localhost:44366/api/cardata/addcar
-            string url = "cardata/addcar";
+            //curl -H "Content-Type:application/json" -d @car.json https://localhost:44366/api/carmodeldata/addcarmodel
+            string url = "carmodeldata/addcarmodel";
 
-            string jsonpayload = jss.Serialize(car);
+            string jsonpayload = jss.Serialize(carmodel);
 
             Debug.WriteLine(jsonpayload);
 
-            HttpContent content= new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType= "application/json";
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
 
 
             HttpResponseMessage response = client.PostAsync(url, content).Result;
@@ -150,50 +136,38 @@ namespace SimonChung_PassionProject.Controllers
             {
                 return RedirectToAction("List");
 
-            } else
+            }
+            else
             {
                 return RedirectToAction("Error");
             }
 
         }
 
-        // GET: Car/Edit/5
+
+        // GET: CarModel/Edit/5
         [Authorize]
         public ActionResult Edit(int id)
         {
             GetApplicationCookie();//get token credentials
-            UpdateCar ViewModel = new UpdateCar();
-            //the existing car information
-            string url = "cardata/findcar/" + id;         
+            string url = "carmodeldata/findcarmodel/" + id;
+
             HttpResponseMessage response = client.GetAsync(url).Result;
-            CarDto SelectedCar = response.Content.ReadAsAsync<CarDto>().Result;
-            ViewModel.SelectedCar = SelectedCar;
+            CarModel selectedcarmodel = response.Content.ReadAsAsync<CarModel>().Result;
 
-
-            //all carmodels to choose from when updating this car
-
-            url = "carmodeldata/listcarmodels/";
-            response = client.GetAsync(url).Result;
-            IEnumerable<CarModel> CarModelOptions = response.Content.ReadAsAsync<IEnumerable<CarModel>>().Result;
-            ViewModel.CarModelOptions = CarModelOptions;
-
-            //all dealers to choose from when updating this car
-            url = "dealerdata/listdealers/";
-            response = client.GetAsync(url).Result;
-            IEnumerable<Dealer> DealerOptions = response.Content.ReadAsAsync<IEnumerable<Dealer>>().Result;
-            ViewModel.DealerOptions = DealerOptions;
-
-            return View(ViewModel);
+            return View(selectedcarmodel);
         }
 
-        // POST: Car/Update/5
+        // POST: CarModel/Update/5
         [HttpPost]
-        public ActionResult Update(int id, Car car)
+        [Authorize]
+        public ActionResult Update(int id, CarModel carmodel)
         {
-            string url = "cardata/updatecar/" + id;
-            string jsonpayload = jss.Serialize(car);
-            HttpContent content = new StringContent(jsonpayload);   
-            content.Headers.ContentType.MediaType= "application/json";
+            GetApplicationCookie();//get token credentials
+            string url = "carmodeldata/updatecarmodel/" + id;
+            string jsonpayload = jss.Serialize(carmodel);
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             Debug.WriteLine(content);
             if (response.IsSuccessStatusCode)
@@ -201,28 +175,30 @@ namespace SimonChung_PassionProject.Controllers
                 return RedirectToAction("List");
             }
             else
-            { 
-                return RedirectToAction("Error"); 
+            {
+                return RedirectToAction("Error");
             }
 
         }
 
-        // GET: Car/ConfirmDelete/5
+        // GET: CarModel/Delete/5
         [Authorize]
         public ActionResult ConfirmDelete(int id)
         {
             GetApplicationCookie();//get token credentials
-            string url = "cardata/findcar/" + id;
+            string url = "carmodeldata/findcarmodel/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
-            CarDto selectedcar = response.Content.ReadAsAsync<CarDto>().Result;
-            return View(selectedcar);
+            CarModel selectedcarmodel = response.Content.ReadAsAsync<CarModel>().Result;
+            return View(selectedcarmodel);
         }
 
-        // POST: Car/Delete/5
+        // POST: CarModel/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
-            string url = "cardata/deletecar/" + id;
+            GetApplicationCookie();//get token credentials
+            string url = "carmodeldata/deletecarmodel/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";
             HttpResponseMessage response = client.PostAsync(url, content).Result;

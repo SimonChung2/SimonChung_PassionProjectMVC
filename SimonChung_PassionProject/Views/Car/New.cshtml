@@ -1,4 +1,4 @@
-﻿
+﻿@model SimonChung_PassionProject.Models.ViewModels.CreateCar
 @{
     ViewBag.Title = "Create";
 }
@@ -15,10 +15,22 @@
         <label>Price:</label><input type="number" min="1" name="Price" />
     </div>
     <div>
-        <label>Model ID:</label><input type="number" min="1" name="ModelID" />
+        <label>Car Model:</label> 
+        <select name="ModelID">
+            @foreach (var carModel in Model.CarModelOptions)
+            {
+                <option value="@carModel.ModelID">@carModel.ModelName @carModel.Make</option>
+            }
+        </select>
     </div>
     <div>
-        <label>Dealer ID:</label><input type="number" min="1" name="DealerID" />
+        <label>Dealer ID:</label>
+        <select name="DealerID">
+            @foreach (var dealer in Model.DealerOptions)
+            {
+                <option value="@dealer.DealerID">@dealer.DealerName </option>
+            }
+        </select>
     </div>
     <div>
         <input type="submit" value="Add Car" />

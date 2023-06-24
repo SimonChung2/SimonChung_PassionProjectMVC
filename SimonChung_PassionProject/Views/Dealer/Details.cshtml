@@ -1,0 +1,25 @@
+﻿@model SimonChung_PassionProject.Models.ViewModels.DetailsDealer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<a href="/dealer/List">Back to List</a>
+<a href="/dealer/edit/@Model.SelectedDealer.DealerID">Update</a>
+<a href="/dealer/confirmdelete/@Model.SelectedDealer.DealerID">Delete</a>
+
+<h2>Dealer ID: @Model.SelectedDealer.DealerID</h2>
+
+<div>Dealer Name: @Model.SelectedDealer.DealerName</div>
+
+<div style="margin-top: 100px;">
+    <h3>Cars Available at @Model.SelectedDealer.DealerName</h3>
+    @foreach (var car in Model.RelatedCars)
+    {
+        <a href="/car/details/@car.CarID">Car ID: @car.CarID</a>
+        <div>Mileage: @car.Mileage</div>
+        <div>Price: @car.Price</div>
+    }
+</div>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<SimonChung_PassionProject.Models.CarModel>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>Car Models List</h2>
+<a href="/carmodel/new">Add Car Model</a>
+
+@foreach (var CarModel in Model)
+{
+    <h2>Model Id: <a href="/carmodel/details/@CarModel.ModelID"> @CarModel.ModelID </a></h2>
+    <div>Model: @CarModel.ModelName</div>
+    <div>Make: @CarModel.Make</div>
+
+}

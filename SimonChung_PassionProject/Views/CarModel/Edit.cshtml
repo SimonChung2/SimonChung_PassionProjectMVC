@@ -1,0 +1,23 @@
+﻿@model SimonChung_PassionProject.Models.CarModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Car Model </h2>
+<form action="/carmodel/update/@Model.ModelID" method="POST">
+    <div style="display:none;">
+        @* Pass through the carmodel ID *@
+        <input type="text" name="ModelID" value="@Model.ModelID" />
+    </div>
+    <div>
+        <label>Model:</label><input type="text" name="ModelName" value="@Model.ModelName" />
+    </div>
+    <div>
+        <label>Make:</label><input type="text" name="Make" value="@Model.Make" />
+    </div>
+
+    <div>
+        <input type="submit" value="Edit Car" />
+    </div>
+</form>
+

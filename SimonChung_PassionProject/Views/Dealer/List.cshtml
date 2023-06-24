@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SimonChung_PassionProject.Models.Dealer>
+@{
+    ViewBag.Title = "List";
+}
+
+
+
+<h2>Dealers List</h2>
+<a href="/dealer/new">Add Dealer</a>
+
+@foreach (var dealer in Model)
+{
+    <h2>Dealer Id: <a href="/dealer/details/@dealer.DealerID"> @dealer.DealerID </a></h2>
+    <div>Dealer Name: @dealer.DealerName</div>
+   
+
+}

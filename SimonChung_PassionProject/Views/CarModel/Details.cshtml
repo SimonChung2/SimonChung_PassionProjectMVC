@@ -1,0 +1,25 @@
+﻿@model SimonChung_PassionProject.Models.ViewModels.DetailsCarModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<a href="/carmodel/List">Back to List</a>
+<a href="/carmodel/edit/@Model.SelectedCarModel.ModelID">Update</a>
+<a href="/carmodel/confirmdelete/@Model.SelectedCarModel.ModelID">Delete</a>
+<h2>Car Model ID: @Model.SelectedCarModel.ModelID</h2>
+
+<div>Model: @Model.SelectedCarModel.ModelName</div>
+<div>Make: @Model.SelectedCarModel.Make</div>
+
+<div style="margin-top: 100px;">
+    <h3>Here are all the @Model.SelectedCarModel.ModelName @Model.SelectedCarModel.Make cars available:  </h3>
+    @foreach(var car in Model.RelatedCars)
+    {
+        <a href="/car/details/@car.CarID">Car ID: @car.CarID</a>
+        <div>Mileage: @car.Mileage km</div>
+        <div>Price: $@car.Price</div>
+    }
+</div>
