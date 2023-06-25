@@ -78,3 +78,24 @@ div a {
     color: white;
 }
 
+input, select {
+    color: black;
+}
+
+.car-form div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.car-form label {
+    min-width: 100px;
+    margin-right: 10px;
+}
+
+.car-form input,
+.car-form select {
+    width: 200px;
+}
+
+

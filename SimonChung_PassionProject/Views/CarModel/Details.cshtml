@@ -21,7 +21,7 @@
     @foreach(var car in Model.RelatedCars)
     {
         <div>
-            <a href="/car/details/@car.CarID">Car ID: @car.CarID</a>
+            <a class="crud_link" href="/car/details/@car.CarID">Car ID: @car.CarID</a>
             <div>Mileage: @car.Mileage km</div>
             <div>Price: $@car.Price</div>
             <div>Dealer: @car.DealerName</div>
