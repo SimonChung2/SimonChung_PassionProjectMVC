@@ -4,12 +4,14 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Model.SelectedCarModel.ModelName @Model.SelectedCarModel.Make </h2>
 
-<a href="/carmodel/List">Back to List</a>
-<a href="/carmodel/edit/@Model.SelectedCarModel.ModelID">Update</a>
-<a href="/carmodel/confirmdelete/@Model.SelectedCarModel.ModelID">Delete</a>
-<h2>Car Model ID: @Model.SelectedCarModel.ModelID</h2>
+<a class="crud_link" href="/carmodel/List">Back to List</a>
+<a class="crud_link" href="/carmodel/edit/@Model.SelectedCarModel.ModelID">Update</a>
+<a class="crud_link" href="/carmodel/confirmdelete/@Model.SelectedCarModel.ModelID">Delete</a>
+
+<br />
+<br />
 
 <div>Model: @Model.SelectedCarModel.ModelName</div>
 <div>Make: @Model.SelectedCarModel.Make</div>
@@ -18,8 +20,12 @@
     <h3>Here are all the @Model.SelectedCarModel.ModelName @Model.SelectedCarModel.Make cars available:  </h3>
     @foreach(var car in Model.RelatedCars)
     {
-        <a href="/car/details/@car.CarID">Car ID: @car.CarID</a>
-        <div>Mileage: @car.Mileage km</div>
-        <div>Price: $@car.Price</div>
+        <div>
+            <a href="/car/details/@car.CarID">Car ID: @car.CarID</a>
+            <div>Mileage: @car.Mileage km</div>
+            <div>Price: $@car.Price</div>
+            <div>Dealer: @car.DealerName</div>
+        </div>
+        <br />
     }
 </div>

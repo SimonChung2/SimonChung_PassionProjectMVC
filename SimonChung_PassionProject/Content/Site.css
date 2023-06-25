@@ -1,7 +1,47 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #01295F;
+    color: white;
 }
+
+h2 a {
+    color: white;
+    font-weight: lighter;
+}
+
+.jumbotron {
+    background-color: #FB8B24;
+}
+
+.btn-default {
+    background-color: #FB8B24;
+    color: white;
+}
+
+.crud_link {
+    color: #FB8B24;
+    margin-right: 30px;
+    margin-top: 20px;
+}
+
+.list_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.list_item:hover {
+    background-color: #8E3B46;
+}
+
+.list_item {
+    margin: 30px;
+    padding: 20px;
+    background-color: #437F97;
+}
+
+
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -28,3 +68,13 @@ textarea {
     background-color: #777;
     border-color: #fff
 }
+
+.car_detail {
+    line-height: 3em;
+    color: white;
+}
+
+div a {
+    color: white;
+}
+

@@ -5,13 +5,13 @@
 
 
 
-<h2>Dealers List</h2>
-<a href="/dealer/new">Add Dealer</a>
+<h2>Car Dealers</h2>
+<a  class="crud_link" href="/dealer/new">Add Dealer</a>
 
 @foreach (var dealer in Model)
 {
-    <h2>Dealer Id: <a href="/dealer/details/@dealer.DealerID"> @dealer.DealerID </a></h2>
-    <div>Dealer Name: @dealer.DealerName</div>
+    <div class="car_detail"><a href="/dealer/details/@dealer.DealerID"> @dealer.DealerName </a></div>
+    
    
 
 }

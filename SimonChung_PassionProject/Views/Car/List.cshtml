@@ -3,17 +3,20 @@
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
+<h2>All Cars</h2>
 
-<a href="/car/new">Add car</a>
-
-@foreach(var car in Model)
-{
-    <h2>Car Id: <a href="/car/details/@car.CarID">@car.CarID</a></h2>
-    <div>Price: $@car.Price</div>
-    <div>Year: @car.Year</div>
-    <div>Mileage: @car.Mileage km</div>
-    <div>Model: @car.CarModelName</div>
-    <div>Make: @car.CarMakeName</div>
-    <div>Dealer: @car.DealerName</div>
-}
+<a class="crud_link" href="/car/new">Add car</a>
+<div class="list_container">
+    @foreach (var car in Model)
+    {
+        <div class="list_item">
+            <h2>Car Id: <a class="crud_link" href="/car/details/@car.CarID">@car.CarID</a></h2>
+            <div>Price: $@car.Price</div>
+            <div>Year: @car.Year</div>
+            <div>Mileage: @car.Mileage km</div>
+            <div>Model: @car.CarModelName</div>
+            <div>Make: @car.CarMakeName</div>
+            <div>Dealer: @car.DealerName</div>
+        </div>
+    }
+</div>

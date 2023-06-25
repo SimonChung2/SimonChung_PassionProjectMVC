@@ -3,14 +3,14 @@
     ViewBag.Title = "View";
 }
 
-<a href="/car/List">Back to List</a>
-<a href="/car/edit/@Model.CarID">Update</a>
-<a href="/car/confirmdelete/@Model.CarID">Delete</a>
+<a class="crud_link" href="/car/List">Back to List</a>
+<a class="crud_link" href="/car/edit/@Model.CarID">Update</a>
+<a class="crud_link" href="/car/confirmdelete/@Model.CarID">Delete</a>
 <h2>Car ID: @Model.CarID</h2>
 
-<div>Price: $@Model.Price</div>
-<div>Year: @Model.Year</div>
-<div>Mileage: @Model.Mileage km</div>
-<div>Model: @Model.CarModelName</div>
-<div>Make: @Model.CarMakeName</div>
-<div>Dealer: @Model.DealerName</div>
+<div class="car_detail">Price: $@Model.Price</div>
+<div class="car_detail">Year: @Model.Year</div>
+<div class="car_detail">Mileage: @Model.Mileage km</div>
+<div class="car_detail">Model: @Model.CarModelName</div>
+<div class="car_detail">Make: @Model.CarMakeName</div>
+<div class="car_detail">Dealer: @Model.DealerName</div>
