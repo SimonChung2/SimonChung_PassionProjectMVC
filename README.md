@@ -1,4 +1,4 @@
-# SimonChung_PassionProjectMVC
+# DriveWise Application
 
 This Car Inventory application allows users to view the car inventories of multiple dealers all in one place.
 
